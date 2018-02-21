@@ -5,7 +5,7 @@ import GridCard from '../GridCard';
 
 class GridMatrix extends PureComponent {
   render() {
-    const { tracks } = this.props;
+    const { tracks, handleClick } = this.props;
     return (
       <Grid container>
         {tracks.map((track) => (
@@ -20,6 +20,7 @@ class GridMatrix extends PureComponent {
             year={track.releaseDate}
             currency={track.currency}
             trackId={track.trackId}
+            handleClick={handleClick}
           />
         ))}
       </Grid>
@@ -29,10 +30,12 @@ class GridMatrix extends PureComponent {
 
 GridMatrix.propTypes = {
   tracks: PropTypes.array,
+  handleClick: PropTypes.func.isRequired,
 };
 
 GridMatrix.defaultProps = {
   tracks: [],
+  handleClick: () => {},
 };
 
 export default GridMatrix;

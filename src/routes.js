@@ -6,14 +6,12 @@ import { history } from './store';
 
 import App from './containers/App';
 import TrackView from './containers/Track';
-import TrackView2 from './containers/Track/index2';
 
 const routes = (
   <ConnectedRouter history={history}>
     <Switch>
       <Route exact path="/" component={App} />
       <Route path="/track/:id" component={TrackView} />
-      <Route path="/track2/:id" component={TrackView2} />
     </Switch>
   </ConnectedRouter>
 );

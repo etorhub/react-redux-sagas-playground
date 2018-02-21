@@ -15,7 +15,7 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import FilterList from 'material-ui-icons/FilterList';
 import get from 'lodash.get';
-import { setSearchFilter, setDataGenres, setDurationFilter, setPriceFilter } from './actions';
+import { setSearchFilter, setDataGenres, setDurationFilter, setPriceFilter, setCurrentTrackId } from './actions';
 import { getAPIData } from '../App/actions';
 import { getFilters } from './selectors';
 import { getDataArray } from '../App/selectors';

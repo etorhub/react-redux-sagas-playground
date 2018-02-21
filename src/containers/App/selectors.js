@@ -16,7 +16,6 @@ export const filteredDataArray = createSelector(
     const duration = get(filters, 'durationFilter', null);
     const price = get(filters, 'priceFilter', null);
     let response = get(data, 'results', []);
-
     // genre filter
     if (genres.length > 0) {
       response = response.filter((t) => genres.includes(t.primaryGenreName));
@@ -35,8 +34,35 @@ export const filteredDataArray = createSelector(
           response.sort((a, b) => a.trackPrice + b.trackPrice);
       }
     }
-
     return response;
   },
 );
 
+export const getTrackToPlay = createSelector(
+  [filteredDataArray, getFilters],
+  (data, filters) => data.find((song) => song.trackId === filters.trackId),
+);
+
+export const getNextTrackToPlay = createSelector(
+  [filteredDataArray, getFilters],
+  (data, filters) => {
+    let response = null;
+    const currentTrackIndex = data.findIndex((song) => song.trackId === filters.trackId);
+    if (currentTrackIndex < data.length) {
+      response = data[currentTrackIndex + 1];
+    }
+    return response;
+  },
+);
+
+export const getPreviousTrackToPlay = createSelector(
+  [filteredDataArray, getFilters],
+  (data, filters) => {
+    let response = null;
+    const currentTrackIndex = data.findIndex((song) => song.trackId === filters.trackId);
+    if (currentTrackIndex > 0) {
+      response = data[currentTrackIndex - 1];
+    }
+    return response;
+  },
+);

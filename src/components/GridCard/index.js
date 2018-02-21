@@ -7,11 +7,18 @@ import { convertMillistoTimeString, trickedSizeThumbnail } from './utils';
 require('./style.css');
 
 class GridCard extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    this.props.handleClick(this.props.trackId);
+  }
   render() {
     const { imageSrc, name, artist, album, price,
       duration, genre, year, currency, trackId } = this.props;
     return (
-      <Card className="grid-card">
+      <Card className="grid-card" onClick={this.handleClick}>
         <div className="hidden-data">
           <div className="hidden-data_album">
             <span className="hidden-data_album_name">{album}</span>
@@ -47,6 +54,7 @@ GridCard.propTypes = {
   year: PropTypes.date,
   currency: PropTypes.string,
   trackId: PropTypes.number,
+  handleClick: PropTypes.func.isRequired,
 };
 
 GridCard.defaultProps = {
@@ -60,6 +68,7 @@ GridCard.defaultProps = {
   year: '',
   currency: '',
   trackId: null,
+  handleClick: () => {},
 };
 
 export default GridCard;

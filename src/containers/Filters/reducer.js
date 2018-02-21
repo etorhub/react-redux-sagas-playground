@@ -10,6 +10,7 @@ export const initialState = {
   genresFilter: [],
   durationFilter: '',
   priceFilter: '',
+  trackId: null,
 };
 
 const filtersReducer = (state = initialState, action) => {

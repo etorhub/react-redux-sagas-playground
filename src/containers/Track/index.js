@@ -1,69 +1,75 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import get from 'lodash.get';
-import Coverflow from 'react-coverflow';
-import { selectApiData } from '../App/selectors';
-import { trickedSizeThumbnail } from '../../components/MusicCard/utils';
-import { mockList } from './mockData';
-import MusicCard from "../../components/MusicCard/index";
+import { getPreviousTrackToPlay, getTrackToPlay, getNextTrackToPlay } from '../App/selectors';
+import { getFilters } from '../Filters/selectors';
 
+import MusicCard from '../../components/MusicCard';
+import NavigationMusicCard from '../../components/NavigationMusicCard';
+import SearchSummary from '../../components/SearchSummary';
+import { setCurrentTrackId } from '../Filters/actions';
 
 require('./styles.css');
 
-export class TracksCarousel extends Component {
+export class TracksCarousel extends PureComponent {
+  handleClick(id) {
+    this.props.actions.setCurrentTrackId(id);
+  }
   render() {
-    const { data } = this.props;
+    const { filters, previous, current, next } = this.props;
     return (
-      <Coverflow
-        styles={{ height: 600 }}
-        displayQuantityOfSide={1}
-        navigation
-        enableHeading
-        enableScroll
-        clickable
-        active={0}
-      >
-        {data.map((track) => (
-          <div>
-            <MusicCard
-              imageSrc={trickedSizeThumbnail(track.artworkUrl100)}
-              audioSrc={track.previewUrl}
-              artist={track.artistName}
-              album={track.collectionName}
-              price={track.trackPrice}
-              name={track.trackName}
-              duration={track.trackTimeMillis}
-              genre={track.primaryGenreName}
-              year={track.releaseDate}
-              currency={track.currency}
-              trackId={track.trackId}
-            />
-          </div>
-        ))}
-      </Coverflow>
+      <div>
+        <SearchSummary
+          priceFilter={filters.priceFilter}
+          durationFilter={filters.durationFilter}
+          genresFilters={filters.genresFilters}
+          searchText={filters.searchText}
+        />
+        <NavigationMusicCard
+          handleClick={this.handleClick}
+          imageSrc={next.artworkUrl100}
+          artist={next.artistName}
+          trackId={next.trackId}
+          name={next.trackName}
+          isNext
+        />
+        <NavigationMusicCard
+          handleClick={this.handleClick}
+          imageSrc={previous.artworkUrl100}
+          artist={previous.artistName}
+          trackId={previous.trackId}
+          name={previous.trackName}
+        />
+        <MusicCard
+          name={current.trackName}
+          artist={current.artistName}
+          imageSrc={current.artworkUrl100}
+          audioSrc={current.previewUrl}
+          trackId={current.trackId}
+        />
+      </div>
     );
   }
 }
 
 TracksCarousel.propTypes = {
-  match: PropTypes.object,
   data: PropTypes.array,
 };
 
 TracksCarousel.defaultProps = {
-  match: {
-    params: {
-      id: '-1',
-    },
-  },
   data: [],
 };
 
 const mapStateToProps = (state) => ({
-  // data: get(selectApiData(state), 'results', []),
-  state,
-  data: mockList,
+  filters: getFilters(state),
+  previous: getPreviousTrackToPlay(state),
+  current: getTrackToPlay(state),
+  next: getNextTrackToPlay(state),
 });
 
-export default connect(mapStateToProps)(TracksCarousel);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ setCurrentTrackId }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TracksCarousel);

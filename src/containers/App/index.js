@@ -6,7 +6,8 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Filters from '../Filters';
-import { getAPIData, setDataGenres } from './actions';
+import { getAPIData } from './actions';
+import { setCurrentTrackId } from '../Filters/actions';
 import { getDataArray, filteredDataArray } from './selectors';
 
 import GridMatrix from '../../components/GridMatrix';
@@ -43,6 +44,7 @@ class App extends Component {
           <div className="grid-matrix">
             <Filters />
             <GridMatrix
+              handleClick={this.props.actions.setCurrentTrackId}
               tracks={filteredData}
             />
           </div>
@@ -69,7 +71,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ getAPIData, setDataGenres }, dispatch),
+  actions: bindActionCreators({ getAPIData, setCurrentTrackId }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -3,6 +3,7 @@ import {
   SET_DATA_GENRES,
   SET_DURATION_FILTER,
   SET_PRICE_FILTER,
+  SET_CURRENT_TRACK_ID,
 } from './constants';
 
 export const setSearchFilter = (searchText) => ({
@@ -23,4 +24,9 @@ export const setDurationFilter = (durationFilter) => ({
 export const setPriceFilter = (priceFilter) => ({
   type: SET_PRICE_FILTER,
   priceFilter,
+});
+
+export const setCurrentTrackId = (trackId) => ({
+  type: SET_CURRENT_TRACK_ID,
+  trackId,
 });
