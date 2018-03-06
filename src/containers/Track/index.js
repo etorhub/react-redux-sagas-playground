@@ -13,11 +13,15 @@ import { setCurrentTrackId } from '../Filters/actions';
 require('./styles.css');
 
 export class TracksCarousel extends PureComponent {
+  constructor(props){
+    super(props);
+    this.handleClick = this.handleClick
+  }
   handleClick(id) {
     this.props.actions.setCurrentTrackId(id);
   }
   render() {
-    const { filters, previous, current, next } = this.props;
+    const { filters, previous, current, next, actions} = this.props;
     return (
       <div>
         <SearchSummary
@@ -27,7 +31,7 @@ export class TracksCarousel extends PureComponent {
           searchText={filters.searchText}
         />
         <NavigationMusicCard
-          handleClick={this.handleClick}
+          handleClick={() => this.handleClick}
           imageSrc={next.artworkUrl100}
           artist={next.artistName}
           trackId={next.trackId}
@@ -35,7 +39,7 @@ export class TracksCarousel extends PureComponent {
           isNext
         />
         <NavigationMusicCard
-          handleClick={this.handleClick}
+          handleClick={() => this.handleClick}
           imageSrc={previous.artworkUrl100}
           artist={previous.artistName}
           trackId={previous.trackId}

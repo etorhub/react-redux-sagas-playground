@@ -3,6 +3,7 @@ import {
   SET_DATA_GENRES,
   SET_DURATION_FILTER,
   SET_PRICE_FILTER,
+  SET_CURRENT_TRACK_ID,
 } from './constants';
 
 export const initialState = {
@@ -23,6 +24,8 @@ const filtersReducer = (state = initialState, action) => {
       return { ...state, durationFilter: action.durationFilter };
     case SET_PRICE_FILTER:
       return { ...state, priceFilter: action.priceFilter };
+    case SET_CURRENT_TRACK_ID:
+      return { ...state, trackId: action.trackId };
     default:
       return state;
   }
