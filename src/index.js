@@ -6,8 +6,6 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import store from './store';
 import routes from './routes';
 
-import './styles/main.css';
-
 const muiTheme = createMuiTheme({});
 ReactDOM.render(
   <Provider store={store}>
